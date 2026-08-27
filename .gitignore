@@ -1,0 +1,7 @@
+.env
+.env.*
+!.env.example
+campus_pulse.db
+*.db-journal
+__pycache__/
+*.py[cod]

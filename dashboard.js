@@ -1,0 +1,1 @@
+if(page==='dashboard'&&document.querySelector('#energyChart')){Chart.defaults.color='#94A3B8';Chart.defaults.borderColor='#1E3150'}

@@ -1,0 +1,1 @@
+document.addEventListener('click',event=>{let block=event.target.closest('.map-block');if(!block)return;event.preventDefault();event.stopImmediatePropagation();location.href=`block-detail.html?block=${block.dataset.block}`},true);

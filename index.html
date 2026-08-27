@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Campus Pulse | Smart Campus</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body class="login-page" data-page="login">
+    <main class="login-landing">
+        <section class="login-panel">
+            <div class="login-content">
+                <div class="login-brand">
+                    <div class="brand-mark">CP</div>
+                    <div><strong>CAMPUS PULSE</strong><span>SMART CAMPUS</span></div>
+                </div>
+                <p class="eyebrow">CAMPUS 25 CONTROL CENTER</p>
+                <h1>Welcome back</h1>
+                <p class="muted login-intro">Intelligent Campus Automation System — sign in to view live occupancy and
+                    energy control.</p>
+                <form id="loginForm" novalidate><label>Role<select id="role" class="select">
+                            <option>Admin</option>
+                            <option>Facility Manager</option>
+                            <option>Faculty</option>
+                        </select></label><label>Email Address<input id="email" type="email"
+                            value="admin@smartcampus.com" placeholder="admin@smartcampus.com" required></label><label>Password<input id="password"
+                            type="password" value="smartcampus" placeholder="Enter your password" required></label>
+                    <div class="form-row"><label class="check"><input id="rememberMe" type="checkbox"> Remember me</label><a
+                            href="#">Forgot password?</a></div>
+                    <p id="loginError" class="form-error"></p><button class="btn primary full"
+                        type="submit">LOGIN</button>
+                </form>
+                <div class="login-or"><span></span>OR<span></span></div><a class="btn demo-login full"
+                    href="dashboard.html">Enter Demo Dashboard</a>
+                <p class="demo-note">Smart India Hackathon prototype <span>• not a production login</span></p>
+            </div>
+        </section>
+        <section class="campus-video-panel"><img class="campus-image" src="assets/campus-campus25.jpg"
+                alt="Aerial view of Campus 25 beside the lake">
+            <div class="video-shade"></div>
+            <div class="video-copy"><span class="video-kicker">CAMPUS 25</span>
+                <h2>Smart Campus Automation System</h2>
+                <p>Real-time occupancy • Energy monitoring • Intelligent automation</p><span class="campus-live">●
+                    CAMPUS LIVE</span>
+            </div>
+        </section>
+    </main>
+    <script src="main.js"></script>
+</body>
+
+</html>

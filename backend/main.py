@@ -40,7 +40,7 @@ async def lifespan(_: FastAPI):
     task.cancel()
 
 app = FastAPI(title="Campus Pulse IoT API", version="1.0.0", lifespan=lifespan)
-app.add_middleware(CORSMiddleware, allow_origins=list(settings.allowed_origins), allow_methods=["GET", "POST"], allow_headers=["Content-Type", "X-Device-Token"])
+app.add_middleware(CORSMiddleware, allow_origins=list(settings.allowed_origins), allow_methods=["GET", "POST", "OPTIONS"], allow_headers=["Content-Type", "X-Device-Token"])
 
 @app.get("/api/health")
 def health():

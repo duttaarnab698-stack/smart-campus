@@ -29,7 +29,7 @@ class Settings:
     mqtt_password: str | None = os.getenv("MQTT_BROKER_PASSWORD")
     mqtt_tls_enabled: bool = env_bool("MQTT_TLS_ENABLED", True)
     device_auth_secret: str = os.getenv("DEVICE_AUTH_SECRET", "")
-    allowed_origins: tuple[str, ...] = tuple(value.strip() for value in os.getenv("ALLOWED_ORIGINS", "http://127.0.0.1:5500,http://localhost:5500").split(",") if value.strip())
+    allowed_origins: tuple[str, ...] = tuple(dict.fromkeys([value.strip() for value in os.getenv("ALLOWED_ORIGINS", "http://127.0.0.1:5500,http://localhost:5500").split(",") if value.strip()] + ["https://smart-campus-red.vercel.app"]))
     empty_delay_seconds: int = int(os.getenv("EMPTY_ROOM_SHUTDOWN_DELAY_SECONDS", os.getenv("EMPTY_SHUTDOWN_DELAY_SECONDS", "5")))
     power_threshold_w: float = float(os.getenv("EMPTY_ROOM_POWER_THRESHOLD_KW", "0.05")) * 1000
     telemetry_freshness_seconds: int = int(os.getenv("TELEMETRY_FRESHNESS_SECONDS", "60"))

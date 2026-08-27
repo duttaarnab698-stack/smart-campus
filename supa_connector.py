@@ -1,12 +1,15 @@
 import paho.mqtt.client as mqtt
+import json
+import os
+from datetime import datetime, timezone
+from dotenv import load_dotenv
 from supabase import create_client
-from datetime import datetime
 
-# Supabase setup
-supabase = create_client(
-    "https://kbpezpjnzuelrwemdabx.supabase.co",
-    "sb_publishable_j19qPqyIf1RFyJrHwFOybw_3N8ymftH"
-)
+load_dotenv()
+
+supabase_url = os.environ["SUPABASE_URL"]
+supabase_key = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
+supabase = create_client(supabase_url, supabase_key)
 
 def on_connect(client, userdata, flags, reason_code, properties):
     print(f"Connected to HiveMQ: {reason_code}")
@@ -14,18 +17,26 @@ def on_connect(client, userdata, flags, reason_code, properties):
 
 def on_message(client, userdata, msg):
     payload = msg.payload.decode()
-    supabase.table("mqtt_messages").insert({
-        "topic": msg.topic,
-        "payload": payload,
-        "received_at": datetime.utcnow().isoformat()
+    data = json.loads(payload)
+    device_id = str(data["device_id"])
+    room_id = str(data.get("room_id", device_id.removeprefix("ESP32-"))).upper()
+    supabase.table("room_telemetry").insert({
+        "room_id": room_id,
+        "device_id": device_id,
+        "occupancy": bool(data.get("occupancy", False)),
+        "power_kw": float(data.get("power_kw", data.get("power_w", 0) / 1000)),
+        "temperature": data.get("temperature"),
+        "humidity": data.get("humidity"),
+        "appliances": data.get("appliances", data.get("relays", {})),
+        "recorded_at": datetime.now(timezone.utc).isoformat()
     }).execute()
     print(f"Stored: [{msg.topic}] {payload}")
 
 client = mqtt.Client(mqtt.CallbackAPIVersion.VERSION2)
-client.username_pw_set("campus_pulse", "sourik@2006")
+client.username_pw_set(os.environ["MQTT_BROKER_USERNAME"], os.environ["MQTT_BROKER_PASSWORD"])
 client.tls_set()
 client.on_connect = on_connect
 client.on_message = on_message
 
-client.connect("26d698b9c40043fea201ceeeca118b35.s1.eu.hivemq.cloud", 8883)
+client.connect(os.environ["MQTT_BROKER_URL"], int(os.getenv("MQTT_BROKER_PORT", "8883")))
 client.loop_forever()

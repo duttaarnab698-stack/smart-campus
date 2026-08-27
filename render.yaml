@@ -7,5 +7,5 @@ services:
     envVars:
       - key: SIMULATION_MODE
         value: "true"
-      - key: ALLOWED_ORIGINS
-        value: "https://smart-campus-red.vercel.app,http://127.0.0.1:5500,http://localhost:5500"
+      - key: FRONTEND_ORIGINS
+        value: "https://smart-campus-nyql.vercel.app,https://smart-campus-red.vercel.app,http://127.0.0.1:5500,http://localhost:5500"

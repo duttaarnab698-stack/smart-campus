@@ -5,9 +5,14 @@ import json
 import time
 from dataclasses import replace
 
-from .core import settings
-from .iot import MQTTDeviceAdapter
-from .supabase_store import SupabaseStore
+try:
+    from .core import settings
+    from .iot import MQTTDeviceAdapter
+    from .supabase_store import SupabaseStore
+except ImportError:
+    from core import settings
+    from iot import MQTTDeviceAdapter
+    from supabase_store import SupabaseStore
 
 
 def main() -> None:

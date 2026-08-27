@@ -1,8 +1,9 @@
-# Campus Pulse IoT backend
+# Campus Pulse IoT
 
-Run the API from this folder:
+Run the API from the backend folder:
 
 ```powershell
+cd backend
 python -m pip install -r requirements.txt
 python -m uvicorn main:app --reload
 ```
@@ -13,7 +14,7 @@ The deployed frontend uses `https://smart-campus-sqbw.onrender.com` as its API b
 
 `SIMULATION_MODE=true` seeds a persistent SQLite database (`campus_pulse.db`) and immediately supports the presentation demo. API docs are at `http://127.0.0.1:8000/docs`.
 
-For physical devices set `SIMULATION_MODE=false`, configure the HiveMQ TLS values in `.env`, run the SQL migration in `supabase_migrations/migrations/001_smart_campus.sql`, and use `smart-campus/{building}/{floor}/{room}/{telemetry|occupancy|power|appliances|command|ack|heartbeat|status}`. Device posts must include `X-Device-Token`, matching `DEVICE_AUTH_SECRET`. Commands retain desired and actual state separately; actual state is changed only by ACK.
+For physical devices set `SIMULATION_MODE=false`, configure the HiveMQ TLS values in `backend/.env`, run the SQL migration in `backend/supabase_migrations/migrations/001_smart_campus.sql`, and use `smart-campus/{building}/{floor}/{room}/{telemetry|occupancy|power|appliances|command|ack|heartbeat|status}`. Device posts must include `X-Device-Token`, matching `DEVICE_AUTH_SECRET`. Commands retain desired and actual state separately; actual state is changed only by ACK.
 
 Telemetry example:
 
@@ -26,7 +27,7 @@ The recommendation endpoint uses deterministic local rules and requires no cloud
 Safely check configured production connections (no credentials are printed):
 
 ```powershell
-python -m backend.healthcheck
+python -m healthcheck
 ```
 
 Production CORS requires `ALLOWED_ORIGINS` to include `https://smart-campus-red.vercel.app`; localhost origins may be included for local development.

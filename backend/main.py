@@ -4,12 +4,20 @@ from contextlib import asynccontextmanager
 from datetime import datetime, timezone
 from fastapi import Depends, FastAPI, Header, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
-from .core import settings
-from .database import Database
-from .schemas import AckIn, CommandIn, DeviceRegistrationIn, HeartbeatIn, ModeIn, OverrideIn, TelemetryIn
-from .services import CampusService, EventBus
-from .iot import MQTTDeviceAdapter
-from .supabase_store import SupabaseStore
+try:
+    from .core import settings
+    from .database import Database
+    from .schemas import AckIn, CommandIn, DeviceRegistrationIn, HeartbeatIn, ModeIn, OverrideIn, TelemetryIn
+    from .services import CampusService, EventBus
+    from .iot import MQTTDeviceAdapter
+    from .supabase_store import SupabaseStore
+except ImportError:
+    from core import settings
+    from database import Database
+    from schemas import AckIn, CommandIn, DeviceRegistrationIn, HeartbeatIn, ModeIn, OverrideIn, TelemetryIn
+    from services import CampusService, EventBus
+    from iot import MQTTDeviceAdapter
+    from supabase_store import SupabaseStore
 
 db = Database(settings.database_path)
 bus = EventBus()

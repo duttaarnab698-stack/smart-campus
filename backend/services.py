@@ -5,8 +5,12 @@ import uuid
 from datetime import datetime, timedelta, timezone
 from typing import Any
 
-from .core import Settings
-from .database import Database, utcnow
+try:
+    from .core import Settings
+    from .database import Database, utcnow
+except ImportError:
+    from core import Settings
+    from database import Database, utcnow
 
 
 def natural_room_key(room_id: str) -> tuple[str, int]:
@@ -121,7 +125,10 @@ class CampusService:
         if device_id.upper() != f"ESP32-{room_id}".upper():
             raise ValueError("device is not authorized for this room")
         normalized = {"device_id": device_id, "timestamp": datetime.fromisoformat(str(payload.get("timestamp", utcnow())).replace("Z", "+00:00")), "occupancy": int(bool(payload.get("occupancy", False))), "temperature": payload.get("temperature"), "humidity": payload.get("humidity"), "voltage": payload.get("voltage"), "current": payload.get("current"), "power_w": float(payload.get("power_kw", 0)) * 1000, "energy_kwh": float(payload.get("energy_kwh", 0)), "relays": payload.get("appliances", {})}
-        from .schemas import TelemetryIn
+        try:
+            from .schemas import TelemetryIn
+        except ImportError:
+            from schemas import TelemetryIn
         return self.telemetry(TelemetryIn(**normalized).model_dump())
 
     def set_manual_override(self, room_id: str, appliance: str, enabled: bool, duration_seconds: int) -> dict[str, Any]:
